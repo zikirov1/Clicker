@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tanga Clicker</title>
+    <!-- Adsgram SDK -->
     <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
     <style>
         body { font-family: sans-serif; text-align: center; padding-top: 50px; background-color: #f4f4f9; }
@@ -15,25 +16,25 @@
 
     <div class="balance">Tangalar: <span id="coins">0</span></div>
     
-    <button onclick="showAd()">Reklama ko'rish (+10 tanga)</button>
+    <!-- Tugma -->
+    <button id="adButton" onclick="showAd()">Reklama ko'rish (+10 tanga)</button>
 
     <script>
-        // Balans o'zgaruvchisi
         let coins = 0;
         const coinDisplay = document.getElementById('coins');
-
-        // Adsgram blokini ulash
+        
+        // Adsgram blokini o'rnatamiz
         const adUnit = new Adsgram.AdUnit({ blockId: '36320' });
 
         function showAd() {
+            alert("Tugma bosildi! Reklama kutilmoqda..."); // Tugma ishlayotganini bilish uchun
+            
             adUnit.show().then((result) => {
-                // Reklama muvaffaqiyatli ko'rildi
                 coins += 10;
                 coinDisplay.innerText = coins;
-                alert("Tabriklaymiz! 10 ta tanga qo'shildi.");
+                alert("Muvaffaqiyatli: 10 tanga qo'shildi.");
             }).catch((result) => {
-                // Reklama ko'rilmadi yoki xatolik
-                alert("Reklama oxirigacha ko'rilmadi.");
+                alert("Xatolik yuz berdi: " + JSON.stringify(result));
             });
         }
     </script>
