@@ -1,123 +1,108 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adsgram Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>Adsgram Test</title>
 
-    <!-- Adsgram -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
-    <style>
-        body{
-            font-family:Arial;
-            background:#111;
-            color:white;
-            text-align:center;
-            padding-top:40px;
-        }
+<style>
+body{
+    background:#111;
+    color:#fff;
+    font-family:Arial;
+    text-align:center;
+    padding:30px;
+}
 
-        button{
-            padding:15px 30px;
-            font-size:18px;
-            border:none;
-            border-radius:10px;
-            background:#229ED9;
-            color:white;
-            cursor:pointer;
-        }
+button{
+    width:250px;
+    height:60px;
+    font-size:20px;
+    border:none;
+    border-radius:12px;
+    background:#229ED9;
+    color:white;
+}
 
-        #log{
-            margin-top:20px;
-            text-align:left;
-            background:#222;
-            padding:15px;
-            white-space:pre-wrap;
-            border-radius:10px;
-        }
-    </style>
+#log{
+    margin-top:20px;
+    text-align:left;
+    white-space:pre-wrap;
+}
+</style>
+
 </head>
 
 <body>
 
 <h2>Adsgram Test</h2>
 
-<button onclick="showAd()">
-Reklamani ko'rish
+<button id="showAd">
+Reklama ko'rish
 </button>
 
 <div id="log"></div>
 
 <script>
 
-const log=(text)=>{
-    document.getElementById("log").innerHTML+=text+"<br>";
-    console.log(text);
-}
+const log=(t)=>{
+    document.getElementById("log").innerHTML+=t+"<br>";
+    console.log(t);
+};
 
-log("===== TEST =====");
+Telegram.WebApp.ready();
+Telegram.WebApp.expand();
 
-if(window.Telegram){
+log("Telegram: OK");
 
-    Telegram.WebApp.ready();
-    Telegram.WebApp.expand();
+window.addEventListener("load",()=>{
 
-    log("✅ Telegram WebApp topildi");
-    log("Version: "+Telegram.WebApp.version);
-    log("Platform: "+Telegram.WebApp.platform);
+    if(!window.Adsgram){
+        log("❌ Adsgram SDK yuklanmadi");
+        return;
+    }
 
-}else{
+    log("✅ Adsgram SDK yuklandi");
 
-    log("❌ Telegram WebApp topilmadi");
+    const AdController=window.Adsgram.init({
 
-}
+        blockId:"36320",
 
-if(window.Adsgram){
+        debug:true,
 
-    log("✅ Adsgram yuklandi");
+        debugConsole:true
 
-}else{
+    });
 
-    log("❌ Adsgram yuklanmadi");
+    document.getElementById("showAd").onclick=async()=>{
 
-}
+        try{
 
-const ad=window.Adsgram.init({
+            const result=await AdController.show();
 
-    blockId:"36320",
+            log("✅ SUCCESS");
 
-    debug:true
+            log(JSON.stringify(result));
+
+            alert("Reklama ko'rildi");
+
+        }catch(e){
+
+            log("❌ ERROR");
+
+            log(JSON.stringify(e));
+
+            alert(JSON.stringify(e));
+
+        }
+
+    };
 
 });
-
-async function showAd(){
-
-    log("----------------------");
-    log("Reklama chaqirilmoqda...");
-
-    try{
-
-        const result=await ad.show();
-
-        log("✅ SUCCESS");
-        log(JSON.stringify(result,null,2));
-
-        alert("Reklama muvaffaqiyatli ko'rsatildi");
-
-    }
-
-    catch(e){
-
-        log("❌ ERROR");
-        log(JSON.stringify(e,null,2));
-
-        alert(JSON.stringify(e));
-
-    }
-
-}
 
 </script>
 
