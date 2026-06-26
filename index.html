@@ -6,63 +6,111 @@
     <title>Adsgram Test</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
+
+    <!-- Adsgram -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+
+    <style>
+        body{
+            font-family:Arial;
+            background:#111;
+            color:white;
+            text-align:center;
+            padding-top:40px;
+        }
+
+        button{
+            padding:15px 30px;
+            font-size:18px;
+            border:none;
+            border-radius:10px;
+            background:#229ED9;
+            color:white;
+            cursor:pointer;
+        }
+
+        #log{
+            margin-top:20px;
+            text-align:left;
+            background:#222;
+            padding:15px;
+            white-space:pre-wrap;
+            border-radius:10px;
+        }
+    </style>
 </head>
+
 <body>
 
 <h2>Adsgram Test</h2>
 
-<button onclick="showAd()">Reklamani ko'rish</button>
+<button onclick="showAd()">
+Reklamani ko'rish
+</button>
 
-<pre id="log"></pre>
+<div id="log"></div>
 
 <script>
 
-const log = (text)=>{
-    document.getElementById("log").innerHTML += text + "\n";
+const log=(text)=>{
+    document.getElementById("log").innerHTML+=text+"<br>";
     console.log(text);
 }
 
-log("===== TEST BOSHLANDI =====");
+log("===== TEST =====");
 
 if(window.Telegram){
-    log("✅ Telegram WebApp topildi");
+
     Telegram.WebApp.ready();
     Telegram.WebApp.expand();
 
-    log("Version: " + Telegram.WebApp.version);
-    log("Platform: " + Telegram.WebApp.platform);
+    log("✅ Telegram WebApp topildi");
+    log("Version: "+Telegram.WebApp.version);
+    log("Platform: "+Telegram.WebApp.platform);
+
 }else{
+
     log("❌ Telegram WebApp topilmadi");
+
 }
 
 if(window.Adsgram){
+
     log("✅ Adsgram yuklandi");
+
 }else{
+
     log("❌ Adsgram yuklanmadi");
+
 }
 
-const adUnit = new Adsgram.AdUnit({
-    blockId: "36320"
+const ad=window.Adsgram.init({
+
+    blockId:"36320",
+
+    debug:true
+
 });
 
 async function showAd(){
 
-    log("-------------------------");
-    log("Reklama so'ralmoqda...");
+    log("----------------------");
+    log("Reklama chaqirilmoqda...");
 
     try{
 
-        const result = await adUnit.show();
+        const result=await ad.show();
 
-        log("✅ Reklama muvaffaqiyatli chiqdi");
+        log("✅ SUCCESS");
         log(JSON.stringify(result,null,2));
 
-        alert("SUCCESS");
+        alert("Reklama muvaffaqiyatli ko'rsatildi");
 
-    }catch(e){
+    }
 
-        log("❌ XATOLIK");
+    catch(e){
+
+        log("❌ ERROR");
         log(JSON.stringify(e,null,2));
 
         alert(JSON.stringify(e));
