@@ -1,32 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reklama ko'rish</title>
-    <script src="https://sad.adsgram.ai/js/sad.js"></script>
+    <title>Tanga Clicker</title>
+    <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; background-color: #f4f4f9; }
+        .balance { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        button { padding: 15px 30px; font-size: 18px; cursor: pointer; background-color: #0088cc; color: white; border: none; border-radius: 10px; }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; margin-top: 50px;">
-        <h3>Reklama ko'rib tanga yig'ing</h3>
-        <button id="showAd" style="padding: 15px 30px; font-size: 18px;">Reklamani boshlash</button>
-    </div>
+
+    <div class="balance">Tangalar: <span id="coins">0</span></div>
+    
+    <button onclick="showAd()">Reklama ko'rish (+10 tanga)</button>
 
     <script>
-        // SIZNING BLOCK IDINGIZNI SHU YERGA YOZASIZ (Adsgram dan olasiz)
-        const adUnit = new Sad({ adUnitId: "36320" });
+        // Balans o'zgaruvchisi
+        let coins = 0;
+        const coinDisplay = document.getElementById('coins');
 
-        document.getElementById("showAd").addEventListener("click", () => {
+        // Adsgram blokini ulash
+        const adUnit = new Adsgram.AdUnit({ blockId: '36320' });
+
+        function showAd() {
             adUnit.show().then((result) => {
                 // Reklama muvaffaqiyatli ko'rildi
-                alert("Tabriklaymiz! Reklama tugadi.");
-                // Telegram botga signal yuborish
-                window.Telegram.WebApp.sendData("watched");
-            }).catch((err) => {
-                // Xatolik yoki reklama yo'qligi
-                alert("Hozircha reklama mavjud emas.");
+                coins += 10;
+                coinDisplay.innerText = coins;
+                alert("Tabriklaymiz! 10 ta tanga qo'shildi.");
+            }).catch((result) => {
+                // Reklama ko'rilmadi yoki xatolik
+                alert("Reklama oxirigacha ko'rilmadi.");
             });
-        });
+        }
     </script>
+
 </body>
 </html>
