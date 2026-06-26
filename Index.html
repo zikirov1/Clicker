@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reklama ko'rish</title>
+    <script src="https://sad.adsgram.ai/js/sad.js"></script>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 50px;">
+        <h3>Reklama ko'rib tanga yig'ing</h3>
+        <button id="showAd" style="padding: 15px 30px; font-size: 18px;">Reklamani boshlash</button>
+    </div>
+
+    <script>
+        // SIZNING BLOCK IDINGIZNI SHU YERGA YOZASIZ (Adsgram dan olasiz)
+        const adUnit = new Sad({ adUnitId: "YOUR_BLOCK_ID" });
+
+        document.getElementById("showAd").addEventListener("click", () => {
+            adUnit.show().then((result) => {
+                // Reklama muvaffaqiyatli ko'rildi
+                alert("Tabriklaymiz! Reklama tugadi.");
+                // Telegram botga signal yuborish
+                window.Telegram.WebApp.sendData("watched");
+            }).catch((err) => {
+                // Xatolik yoki reklama yo'qligi
+                alert("Hozircha reklama mavjud emas.");
+            });
+        });
+    </script>
+</body>
+</html>
